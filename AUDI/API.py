@@ -45,8 +45,8 @@ class API:
         send_mail_req = self.session.post(email_login_url, data=payload, headers=BASE_HEADERS)
 
         # get new hmac and csrf token from js script
-        csrf = re.findall(r"csrf_token: '.*',", send_mail_req.text)[0].split("'")[1]
-        hmac = re.findall(r'"hmac":"(.*?)"', send_mail_req.text)[0].split('"')[0]
+        csrf = re.search(r"csrf_token: '(.*?)'", send_mail_req.text).group(1)
+        hmac = re.search(r'"hmac":"(.*?)"', send_mail_req.text).group(1)
 
         payload = {
             "hmac": hmac,
